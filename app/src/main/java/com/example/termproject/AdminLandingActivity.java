@@ -16,8 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +47,9 @@ public class AdminLandingActivity extends AppCompatActivity {
         textViewClassTypeName = (TextView) findViewById(R.id.textClassTypeName);
         textViewClassTypeDescription = (TextView) findViewById(R.id.textClassTypeDescription);
 
-        buttonAddClassType = (Button) findViewById(R.id.buttonAddClassType);
+        buttonAddClassType = (Button) findViewById(R.id.buttonAddClass);
 
-        listViewClassTypes = (ListView) findViewById(R.id.listViewClassTypes);
+        listViewClassTypes = (ListView) findViewById(R.id.listViewGymClasses);
 
         databaseAccounts = FirebaseDatabase.getInstance().getReference("accounts");
 
@@ -63,9 +61,11 @@ public class AdminLandingActivity extends AppCompatActivity {
             String accountID = extras.getString("account");
             
             /* because i seem incapable of passing an
+             * String accountID = extras.getString("account");
              * account object between activites, i get
              * to query the database all over again!
              * yay me! */
+            
             databaseAccounts.orderByKey().equalTo(accountID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

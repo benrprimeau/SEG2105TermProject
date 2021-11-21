@@ -36,7 +36,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerAccountType.setAdapter(adapter);
 
-        submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton = (Button) findViewById(R.id.addClassButton);
 
         databaseAccounts = FirebaseDatabase.getInstance().getReference("accounts");
 

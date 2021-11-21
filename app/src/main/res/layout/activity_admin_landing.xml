@@ -59,7 +59,7 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/buttonAddClassType"
+                android:id="@+id/buttonAddClass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -67,7 +67,7 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/listViewClassTypes"
+            android:id="@+id/listViewGymClasses"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />

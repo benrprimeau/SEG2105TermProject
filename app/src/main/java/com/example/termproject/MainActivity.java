@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
                             switchToAdminLanding();
                         }
 
+                        else if (userAccount.getAccountType().equals("Teacher")) {
+                            switchToInstructorLanding();
+                        }
+
                         else {
                             switchToRegUsrLanding();
                         }
@@ -111,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
          * just the account ID, but android studio actually hated
          * that and i simply don't have the time to figure out why. */
         Intent switchActivityIntent = new Intent(MainActivity.this, AdminLandingActivity.class).putExtra("account",userAccount.get_id());
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+        startActivity(switchActivityIntent);
+    }
+
+    private void switchToInstructorLanding() {
+        /* I wanted to pass the account object rather than
+         * just the account ID, but android studio actually hated
+         * that and i simply don't have the time to figure out why. */
+        Intent switchActivityIntent = new Intent(MainActivity.this, InstructorLandingActivity.class).putExtra("account",userAccount.get_id());
         Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
         startActivity(switchActivityIntent);
     }

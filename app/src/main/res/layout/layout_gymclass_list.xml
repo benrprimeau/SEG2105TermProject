@@ -18,14 +18,21 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewName"
+                android:id="@+id/textViewClassType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <TextView
-                android:id="@+id/textViewDescription"
+                android:id="@+id/textViewInstructor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewDifficulty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -36,6 +43,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
@@ -44,11 +73,11 @@
             android:text="Button" />
 
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="clip_vertical|center_vertical"
-            android:text="Delete" />
-    </LinearLayout>
+            android:text="Cancel" />
 
+    </LinearLayout>
 </LinearLayout>
