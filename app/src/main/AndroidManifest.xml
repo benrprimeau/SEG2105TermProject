@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TermProject">
         <activity
+            android:name=".InstructorLandingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegUsrLandingActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -18,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".AdminLandingActivity" />
     </application>
 
 </manifest>

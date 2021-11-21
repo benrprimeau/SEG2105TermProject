@@ -4,39 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".RegUsrLandingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/textName"
+        <TextView
+            android:id="@+id/textViewWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Your name"
-            android:inputType="textPersonName" />
+            android:text="Welcome!" />
 
-        <EditText
-            android:id="@+id/textPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Enter a password"
-            android:inputType="textPassword" />
-
-        <Spinner
-            android:id="@+id/spinnerAccountType"
+        <TextView
+            android:id="@+id/textViewAccountType"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login" />
+            android:text="TextView" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
