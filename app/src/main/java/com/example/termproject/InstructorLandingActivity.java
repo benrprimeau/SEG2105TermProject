@@ -138,7 +138,7 @@ public class InstructorLandingActivity extends AppCompatActivity {
     }
 
     private void switchToAddClassPage() {
-        Intent switchActivityIntent = new Intent(InstructorLandingActivity.this, AddClassActivity.class).putExtra("instructorName",userAccount.getName());
+        Intent switchActivityIntent = new Intent(InstructorLandingActivity.this, AddClassActivity.class).putExtra("instructorID",userAccount.get_id());
         startActivity(switchActivityIntent);
     }
 }

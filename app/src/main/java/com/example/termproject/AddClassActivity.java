@@ -3,6 +3,7 @@ package com.example.termproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,6 +29,7 @@ public class AddClassActivity extends AppCompatActivity {
     Spinner spinnerDay;
     Spinner spinnerTime;
     TextView textMaximumCapacity;
+    DatabaseReference databaseAccounts;
     DatabaseReference databaseClassTypes;
     DatabaseReference databaseClasses;
 
@@ -36,7 +38,8 @@ public class AddClassActivity extends AppCompatActivity {
 
     String[] classTypeNameArray;
 
-    String loggedInInstructorName;
+    String instructorID;
+    Account loggedInUser;
 
     String[] difficultyLevels = {"Beginner","Intermediate","Advanced"};
     String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday","Friday"};
@@ -52,12 +55,39 @@ public class AddClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class);
 
+        databaseAccounts = FirebaseDatabase.getInstance().getReference("accounts");
         databaseClassTypes = FirebaseDatabase.getInstance().getReference("classTypes");
         databaseClasses = FirebaseDatabase.getInstance().getReference("gymClasses");
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            loggedInInstructorName = extras.getString("instructorName");
+            instructorID = extras.getString("instructorID");
+
+            /* because i seem incapable of passing an
+             * String accountID = extras.getString("account");
+             * account object between activites, i get
+             * to query the database all over again!
+             * yay me! */
+
+            databaseAccounts.orderByKey().equalTo(instructorID).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                        /* the account variable overwrites every time,
+                         * but that shouldn't matter since only one result
+                         * should ever by in getChildren(). This is more just to
+                         * remove the list container that the datasnapshot is in. */
+                        loggedInUser = childSnapshot.getValue(Account.class);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    /* bro imagine actually throwing an exception
+                     * instead of just using print statements */
+                    System.out.println("oopsie that didn't work");
+                }
+            });
         }
 
         spinnerClassType = (Spinner) findViewById(R.id.spinnerClassType);
@@ -90,6 +120,8 @@ public class AddClassActivity extends AppCompatActivity {
 
         listViewGymClasses = (ListView) findViewById(R.id.listViewGymClasses);
         gymClasses = new ArrayList<>();
+
+
 
     }
 
@@ -147,7 +179,7 @@ public class AddClassActivity extends AppCompatActivity {
 
     private void addGymClass() {
         String id = databaseClasses.push().getKey();
-        String instructorName = loggedInInstructorName;
+        String instructorName = loggedInUser.getName();
         ClassType classType = classTypeList.get(spinnerClassType.getSelectedItemPosition());
         String difficultyLevel = (String) spinnerDifficultyLevel.getSelectedItem();
         String day = (String) spinnerDay.getSelectedItem();
@@ -178,6 +210,16 @@ public class AddClassActivity extends AppCompatActivity {
         else {
             GymClass gymClass = new GymClass(id, instructorName, classType, difficultyLevel, day, time, maximumCapacity);
             databaseClasses.child(id).setValue(gymClass);
+            switchToInstructorLanding();
         }
+    }
+
+    private void switchToInstructorLanding() {
+        /* I wanted to pass the account object rather than
+         * just the account ID, but android studio actually hated
+         * that and i simply don't have the time to figure out why. */
+        Intent switchActivityIntent = new Intent(AddClassActivity.this, InstructorLandingActivity.class).putExtra("account",loggedInUser.get_id());
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show();
+        startActivity(switchActivityIntent);
     }
 }
