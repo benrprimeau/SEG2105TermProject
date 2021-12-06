@@ -47,7 +47,7 @@ public class InstructorLandingActivity extends AppCompatActivity {
 
         textSearchBar = (TextView) findViewById(R.id.textSearchBar);
 
-        buttonAddClass = (Button) findViewById(R.id.buttonAddClass);
+        buttonAddClass = (Button) findViewById(R.id.buttonMyClasses);
 
         listViewGymClasses = (ListView) findViewById(R.id.listViewGymClasses);
 
@@ -110,7 +110,7 @@ public class InstructorLandingActivity extends AppCompatActivity {
                     gymClasses.add(gymClass);
                 }
 
-                GymClassList gymClassAdapter = new GymClassList(InstructorLandingActivity.this, gymClasses);
+                GymClassListInstructor gymClassAdapter = new GymClassListInstructor(InstructorLandingActivity.this, gymClasses);
                 listViewGymClasses.setAdapter(gymClassAdapter);
                 listViewGymClasses.setTextFilterEnabled(true);
 

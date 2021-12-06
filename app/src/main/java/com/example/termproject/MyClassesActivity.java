@@ -18,61 +18,64 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegUsrLandingActivity extends AppCompatActivity {
+public class MyClassesActivity extends AppCompatActivity {
+
+    TextView textViewWelcome;
+
+    TextView textSearchBar;
+
+    ListView listViewGymClasses;
+    ArrayList<GymClass> myGymClasses;
+    ArrayList<String> myGymClassesRef;
 
     DatabaseReference databaseAccounts;
     DatabaseReference databaseClasses;
-    public static Account userAccount;
 
-    TextView textViewWelcome;
-    TextView textViewAccountType;
-    TextView textSearchBar;
-
-    Button buttonMyClasses;
-
-    ListView listViewGymClasses;
-    List<GymClass> gymClasses;
+    Account userAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reg_usr_landing);
-        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
-        textViewAccountType = (TextView) findViewById(R.id.textViewAccountType);
+        setContentView(R.layout.activity_my_classes);
 
-        buttonMyClasses = (Button) findViewById(R.id.buttonMyClasses);
+        textViewWelcome = (TextView) findViewById(R.id.textViewWelcome);
 
         textSearchBar = (TextView) findViewById(R.id.textSearchBar);
 
         listViewGymClasses = (ListView) findViewById(R.id.listViewGymClasses);
 
         databaseAccounts = FirebaseDatabase.getInstance().getReference("accounts");
+        databaseClasses = FirebaseDatabase.getInstance().getReference("classes");
 
-        gymClasses = new ArrayList<>();
-        databaseClasses = FirebaseDatabase.getInstance().getReference("gymClasses");
+        myGymClassesRef = new ArrayList<String>();
+        myGymClasses = new ArrayList<GymClass>();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            String accountID = extras.getString("account");
-            
+            String accountID = extras.getString("accountID");
+
             /* because i seem incapable of passing an
+             * String accountID = extras.getString("account");
              * account object between activites, i get
              * to query the database all over again!
              * yay me! */
+
             databaseAccounts.orderByKey().equalTo(accountID).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for(DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                         /* the account variable overwrites every time,
                          * but that shouldn't matter since only one result
                          * should ever by in getChildren(). This is more just to
                          * remove the list container that the datasnapshot is in. */
                         userAccount = childSnapshot.getValue(Account.class);
                         textViewWelcome.setText(String.valueOf("Welcome " + userAccount.getName()));
-                        textViewAccountType.setText(String.valueOf(("Your account is of type: " + userAccount.getAccountType())));
+
+                        myGymClassesRef = userAccount.getClasses();
                     }
                 }
 
@@ -83,30 +86,63 @@ public class RegUsrLandingActivity extends AppCompatActivity {
                     System.out.println("oopsie that didn't work");
                 }
             });
-        }
 
-        buttonMyClasses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchToMyClassesPage();
+            for (int i = 0; i < myGymClassesRef.size(); i++) {
+                int finalI = i;
+                databaseClasses.orderByKey().equalTo(myGymClassesRef.get(i)).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                            GymClass gymClass = childSnapshot.getValue(GymClass.class);
+                            myGymClasses.set(finalI, gymClass);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
-        });
+        }
     }
-
 
     @Override
     protected void onStart() {
         super.onStart();
-        databaseClasses.addValueEventListener(new ValueEventListener() {
+        databaseAccounts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                gymClasses.clear();
+                myGymClasses.clear();
                 for(DataSnapshot postSnapshot : snapshot.getChildren()) {
-                    GymClass gymClass = postSnapshot.getValue(GymClass.class);
-                    gymClasses.add(gymClass);
+                    Account account = postSnapshot.getValue(Account.class);
+
+                    if(account.get_id().equals(userAccount.get_id())) {
+                        myGymClassesRef = account.getClasses();
+                        for (int i = 0; i < myGymClassesRef.size(); i++) {
+                            int finalI = i;
+                            databaseClasses.orderByKey().equalTo(myGymClassesRef.get(i)).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                        GymClass gymClass = childSnapshot.getValue(GymClass.class);
+                                        myGymClasses.set(finalI, gymClass);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
                 }
 
-                GymClassListUser gymClassAdapter = new GymClassListUser(RegUsrLandingActivity.this, gymClasses);
+                System.out.println("ref " + myGymClassesRef.size());
+                System.out.println(myGymClasses.size());
+
+                GymClassListInstructor gymClassAdapter = new GymClassListInstructor(MyClassesActivity.this, myGymClasses);
                 listViewGymClasses.setAdapter(gymClassAdapter);
                 listViewGymClasses.setTextFilterEnabled(true);
 
@@ -131,10 +167,5 @@ public class RegUsrLandingActivity extends AppCompatActivity {
                 System.out.println("oopsie that didn't work");
             }
         });
-    }
-
-    private void switchToMyClassesPage() {
-        Intent switchActivityIntent = new Intent(RegUsrLandingActivity.this, MyClassesActivity.class).putExtra("accountID",userAccount.get_id());
-        startActivity(switchActivityIntent);
     }
 }

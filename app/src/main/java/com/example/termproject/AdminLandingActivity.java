@@ -47,7 +47,7 @@ public class AdminLandingActivity extends AppCompatActivity {
         textViewClassTypeName = (TextView) findViewById(R.id.textClassTypeName);
         textViewClassTypeDescription = (TextView) findViewById(R.id.textClassTypeDescription);
 
-        buttonAddClassType = (Button) findViewById(R.id.buttonAddClass);
+        buttonAddClassType = (Button) findViewById(R.id.buttonMyClasses);
 
         listViewClassTypes = (ListView) findViewById(R.id.listViewGymClasses);
 

@@ -11,16 +11,57 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome!" />
-
-        <TextView
-            android:id="@+id/textViewAccountType"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Welcome!"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textViewAccountType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />
+
+            <Button
+                android:id="@+id/buttonMyClasses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="My Classes" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/textSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.3"
+            android:ems="10"
+            android:hint="Search for a class"
+            android:inputType="none|textFilter|textPersonName" />
+
+        <ListView
+            android:id="@+id/listViewGymClasses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".5" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,8 @@
 package com.example.termproject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
     public String _id;
     public String name;
@@ -7,6 +10,8 @@ public class Account {
     // i <3 storing passwords in plain-text
     public String password;
     public String accountType;
+
+    public static ArrayList<String> classes = new ArrayList<String>();
 
     public Account(String _id, String name, String password, String accountType) {
         this._id = _id;
@@ -59,5 +64,29 @@ public class Account {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public ArrayList<String> getClasses() {
+        return this.classes;
+    }
+
+    public void setClasses(ArrayList<String> classes) {
+        this.classes = classes;
+    }
+
+    public boolean enrolledInClass(String id) {
+        if(this.classes.size()>0) {
+            return this.classes.contains(id);
+        }
+
+        return false;
+    }
+
+    public void addClass(String id) {
+        this.classes.add(id);
+    }
+
+    public void removeClass(String id) {
+        this.classes.remove(id);
     }
 }

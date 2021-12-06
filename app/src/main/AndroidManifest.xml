@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TermProject">
         <activity
+            android:name=".MyClassesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_my_classes"
+            android:theme="@style/Theme.TermProject.NoActionBar" />
+        <activity
             android:name=".AddClassActivity"
             android:exported="false" />
         <activity

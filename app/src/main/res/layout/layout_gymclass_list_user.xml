@@ -63,21 +63,29 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textViewCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="Button" />
 
         <Button
-            android:id="@+id/cancelButton"
+            android:id="@+id/enrollButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="clip_vertical|center_vertical"
-            android:text="Cancel" />
+            android:text="Enroll" />
+
+        <Button
+            android:id="@+id/leaveClass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Leave Class" />
 
     </LinearLayout>
 </LinearLayout>

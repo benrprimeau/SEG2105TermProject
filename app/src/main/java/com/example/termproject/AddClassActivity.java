@@ -196,7 +196,7 @@ public class AddClassActivity extends AppCompatActivity {
                     errorString = "Sorry, a " + classType.getName() + " class is already scheduled by " + c.getInstructorName() + " on " + day;
                 }
 
-                else if (c.getInstructorName().equals(instructorName) && c.getTime().equals(time)) {
+                else if (c.getInstructorName().equals(instructorName) && c.getTime().equals(time) && c.getDay().equals((day))) {
                     conflict = true;
                     errorString = "You have already booked a " + classType.getName() + " class on " + day + " from " + time;
                 }
